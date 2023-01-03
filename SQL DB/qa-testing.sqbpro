@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/Users/kicha/Desktop/QA Курс/База данных/qa-testing.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1656"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,8:mainStudents"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="Class_rooms" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="88"/><column index="2" value="75"/><column index="3" value="101"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Progress" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="80"/><column index="2" value="74"/><column index="3" value="88"/><column index="4" value="45"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Students" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="74"/><column index="2" value="79"/><column index="3" value="79"/><column index="4" value="60"/><column index="5" value="71"/><column index="6" value="78"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">CREATE TABLE Students
+(
+	StudentID INTEGER PRIMARY KEY,
+	First_name VARCHAR(255) NOT NULL,
+	Last_name VARCHAR(255) NOT NULL,
+	Country VARCHAR(255) NOT NULL,
+	Language VARCHAR(255) NULL,
+	Date_birth DATETIME NULL
+	);</sql><sql name="SQL 2">INSERT INTO Students
+	(First_name, Last_name, Country, Language, Date_birth)
+VALUES
+	('Ivan', 'Ivanov', 'RUS', 'RU', '1990-11-06'),
+	('Aleksandr', 'Aleksandrov', 'RUS', 'RU', '1985-05-06'),
+	('Olga', 'Guseva', 'UA', 'UA', '1992-10-18'),
+	('Roma', 'Zaycev', 'UK', 'EN', '1990-11-08'),
+	('Ivan', 'Lomov', 'USA', 'EN', '1992-03-08');</sql><sql name="SQL 3">CREATE TABLE Class_rooms
+(
+	ClassroomID INTEGER PRIMARY KEY,
+	Faculty VARCHAR(255) NOT NULL,
+	Num_students INTEGER NOT NULL
+);</sql><sql name="SQL 4">INSERT INTO Class_rooms
+	(Faculty, Num_students)
+VALUES
+		('Manual', 5),
+		('Selenium', 5),
+		('API', 5),
+		('Perfomance', 5),
+		('Intervue', 5);</sql><sql name="SQL 5">CREATE TABLE Progress
+(
+	 ProgressID INTEGER PRIMARY KEY,
+	 StudentID INTEGER NOT NULL,
+	 ClassroomID INTEGER NOT NULL,
+	 Score INTEGER NOT NULL,
+	 FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
+	 FOREIGN KEY (ClassroomID) REFERENCES Class_rooms(ClassroomID)
+);</sql><sql name="SQL 6">INSERT INTO Progress
+	(StudentID, ClassroomID, Score)
+VALUES
+	(1, 1, 10),
+	(1, 2, 9),
+	(1, 3, 9),
+	(1, 4, 9),
+	(1, 5, 8),
+	(2, 1, 8),
+	(2, 2, 9),
+	(2, 3, 9),
+	(2, 4, 9),
+	(2, 5, 8),
+	(3, 1, 8),
+	(3, 2, 9),
+	(3, 3, 10),
+	(3, 4, 9),
+	(3, 5, 8),
+	(4, 1, 9),
+	(4, 2, 8),
+	(4, 3, 8),
+	(4, 4, 10),
+	(4, 5, 9),
+	(5, 1, 10),
+	(5, 2, 8),
+	(5, 3, 10),
+	(5, 4, 9),
+	(5, 5, 10);</sql><sql name="SQL 8">SELECT COUNT(*)
+AS Total_students
+FROM Students
+-- WHERE Last_name LIKE 'Z%';</sql><sql name="SQL 9">SELECT SUM(Score) / COUNT(Score)
+AS Summer
+FROM Progress
+WHERE StudentID = 1;</sql><sql name="SQL 10">SELECT *
+FROM Students
+ORDER BY StudentID DESC
+LIMIT 1;</sql><sql name="SQL 11">SELECT First_name, COUNT(First_name)
+FROM Students
+GROUP BY First_name;</sql><sql name="SQL 12">CREATE TABLE Auto
+(
+	AutoID INTEGER PRIMARY KEY,
+	CarBrand VARCHAR(255) NOT NULL,
+	Model VARCHAR(255) NOT NULL,
+	YearOfRelease INTEGER NOT NULL,
+	Price INTEGER NOT NULL
+);
+	</sql><sql name="SQL 13">INSERT INTO Auto
+	(CarBrand, Model, YearOfRelease, Price)
+VALUES
+	('Toyota', 'Prius', 2000, 500000),
+	('BMW', 'X5', 2010, 1000000),
+	('Audi', 'F3', 2014, 1450000),
+	('Toyota', 'Camry', 2012, 1200000),
+	('Skoda', 'Rapid', 2014, 700000),
+	('Skoda', 'Octavia', 2018, 1500000),
+	('BMW', 'X3', 2012, 1000000),
+	('Mercedes', 'AMG', 2014, 1550000),
+	('LADA', 'Vesta', 2022, 950000),
+	('LADA', 'Xray', 2021, 1100000);</sql><sql name="SQL 14">--Стоимость авто от 1млн. руб. и выше с сортировкой от большего к меньшему 
+SELECT *
+FROM Auto
+WHERE Price &gt;= 1000000
+ORDER BY Price ASC;</sql><sql name="SQL 15">SELECT *
+FROM Students
+JOIN Progress
+ON Students.StudentID = Progress.StudentID;</sql><sql name="SQL 16">SELECT
+Students.First_name, Students.Last_name,
+Class_rooms.Faculty,
+Progress.Score
+FROM Students
+JOIN Progress
+ON Students.StudentID = Progress.StudentID
+JOIN Class_rooms
+ON Progress.ClassroomID = Class_rooms.ClassroomID;</sql><sql name="SQL 17">UPDATE Students
+SET Last_name = 'Guseva'
+WHERE First_name = 'Olga';
+SELECT *
+FROM Students
+WHERE Last_name = 'Guseva';</sql><sql name="SQL 18">INSERT INTO Students
+	(First_name, Last_name, Country, Language, Date_birth)
+VALUES
+	('Pavel', 'Pavlov', 'RUS', 'RU', 1987-07-24);
+SELECT *
+FROM Students;
+DELETE 
+FROM Students
+WHERE First_name = 'Pavel'
+AND Last_name = 'Pavlov';
+SELECT *
+FROM Students;</sql><current_tab id="16"/></tab_sql></sqlb_project>
